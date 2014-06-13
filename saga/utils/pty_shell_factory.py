@@ -224,6 +224,7 @@ class PTYShellFactory (object) :
                                    "Token_Response.*:\s*$",        # passtoken  prompt
                                    "want to continue connecting",  # hostkey confirmation
                                    ".*HELLO_\\d+_SAGA$",           # prompt detection helper
+                                   "^(\(\([a-zA-Z0-9\.\_\-]+\)\))$"# skewed virtualenv prompt
                                    "^(.*[\$#%>\]])\s*$"]           # greedy native shell prompt 
 
                 # find a prompt
@@ -332,6 +333,18 @@ class PTYShellFactory (object) :
                         retry_trigger = False
                         n, match = pty_shell.find (prompt_patterns, delay)
                         continue
+
+
+                    # --------------------------------------------------------------
+                    elif n == 5 :
+
+                        # found some stupid virtualenv prompt which was applied
+                        # even if no native prompt existed.  Or it overwrote it?
+                        # Either way, try to set PS1...
+                        logger.debug ("got virtualenv prompt trigger (%s) (%s)" %  (n, match))
+
+                        pty_shell.write ("export PS1='PROMPT > '\n")
+                        n, match = pty_shell.find (prompt_patterns, delay)
 
 
                     # --------------------------------------------------------------

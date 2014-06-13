@@ -39,21 +39,14 @@ def main():
           touchjob = js.create_job(jd)
 
           # Check our job's id and state
-          print "Job ID    : %s" % (touchjob.id)
-          print "Job State : %s" % (touchjob.state)
+          print "Job ID      : %s" % (touchjob.id)
+          print "Job State   : %s" % (touchjob.state)
 
           # Now we can start our job.
-          print "\n...starting job...\n"
           touchjob.run()
 
-          print "Job ID    : %s" % (touchjob.id)
-          print "Job State : %s" % (touchjob.state)
-
-          # List all jobs that are known by the adaptor.
-          # This should show our job as well.
-          print "\nListing active jobs: "
-          for job in js.list():
-              print " * %s" % job
+          print "Job ID      : %s" % (touchjob.id)
+          print "Job State   : %s" % (touchjob.state)
 
           # Now we disconnect and reconnect to our job by using the get_job()
           # method and our job's id. While this doesn't make a lot of sense
@@ -71,6 +64,12 @@ def main():
           print "Create time : %s" % (touchjob_clone.created)
           print "Start time  : %s" % (touchjob_clone.started)
           print "End time    : %s" % (touchjob_clone.finished)
+
+          # List all jobs that are known by the adaptor.
+          # This should show our job as well.
+          print "\nListing active jobs: "
+          for job in js.list():
+              print " * %s" % job
 
         js.close()
         return 0
